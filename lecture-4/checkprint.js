@@ -1,0 +1,1 @@
+process.stdout.write(new Number(5));
