@@ -13,7 +13,8 @@ function numpad(unproc, proc=""){
     let key = parseInt(unproc[0]);
     let letters = getKeyLetter(key);
 
-    let mod_unproc = unproc.substring(1)
+    let mod_unproc = unproc.substring(1);
+    
     for (const letter of letters) {
         numpad(mod_unproc, proc + letter);
     }
