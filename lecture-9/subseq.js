@@ -12,6 +12,35 @@ function subseq(unprc, proc=""){
 
 }
 
+function subseqOpti(unprc, proc="", index=0){
+    if(unprc.length==index){
+        return [proc];
+    }
+
+    let ch = unprc[index];
+
+    let left = subseqOpti(unprc, proc + ch, index + 1);
+    let right = subseqOpti(unprc, proc, index + 1);
+
+    return left.concat(right);
+
+}
+
+function subseqOptiNoRet(unprc, proc="", index=0){
+    if(unprc.length==index){
+        console.log(proc);
+        return;
+    }
+
+    let ch = unprc[index];
+
+    subseqOptiNoRet(unprc, proc + ch, index + 1);
+    subseqOptiNoRet(unprc, proc, index + 1);
+
+    return;
+
+}
+
 function subseqSolutions(unprc, solutions, proc=""){
     if(unprc==""){
         solutions.push(proc);
