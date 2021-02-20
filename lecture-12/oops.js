@@ -1,8 +1,12 @@
 class Human {
 
-    money = 1000;
-
     // this represent current obj in power
+
+    constructor(name="Unknown", money=1000){
+        this.name = name;
+        this.money = money;
+    }
+
 
     party = function(){
         if(this.money >= 100){
@@ -21,8 +25,8 @@ class Human {
     }
 }
 
-const anuj = new Human();
-const nitin = new Human();
+const anuj = new Human("Anuj Ji", 10000);
+const nitin = new Human("Nitin Bhai", 100);
 
 for (let index = 0; index < 11; index++) {
     nitin.party();  
@@ -30,6 +34,8 @@ for (let index = 0; index < 11; index++) {
 
 console.log(nitin.money);
 console.log(anuj.money);
+
+console.log(anuj);
 
 nitin.borrow(anuj);
 
