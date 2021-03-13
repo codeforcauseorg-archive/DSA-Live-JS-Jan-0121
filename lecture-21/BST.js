@@ -6,8 +6,6 @@ class Node {
         this.right = right;
         this.count = 1;
     }
-
-
 }
 
 class BST {
@@ -64,7 +62,7 @@ class BST {
                 } else {
                     let nextVal = this.#findNext(node);
                     node.value = nextVal;
-                    node.right = this.#delete(nextVal, node.right);
+                    [node.right, ret] = this.#delete(nextVal, node.right);
 
                 }
                 ret = true;
