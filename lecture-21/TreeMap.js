@@ -51,7 +51,7 @@ class BST {
       if(!node.left && !node.right){
         return null;
       }
-      if (node.left == null) {
+      else if (node.left == null) {
         node = node.right;
       } else if (node.right == null) {
         node = node.left;
