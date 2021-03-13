@@ -36,33 +36,46 @@ class BST {
     }
 
     delete = (value) => {
-        this.#root = this.#delete(value, this.#root);
+         let [ref, ret] = this.#delete(value, this.#root);
+         this.#root = ref;
+         return ret;
     }
 
     #delete = (value, node)=> {
         if(node == null){
-            return null;
+            return [null, false];
         }
 
+        let ret = true;
+
         if(value < node.value){
-            node.left = this.#delete(value, node.left);
+            [node.left, ret] = this.#delete(value, node.left);
         } else if (value > node.value){
-            node.right = this.#delete(value, node.right);
+            [node.right, ret] = this.#delete(value, node.right);
         } else {
             if(node.count > 1){
                 node.count -= 1;
+                ret = true;
             } else {
                 if(node.left == null){
-                    return node.right;
+                    node = node.right;
                 } else if (node.right == null){
-                    return node.left;
+                    node = node.left;
                 } else {
                     let nextVal = this.#findNext(node);
                     node.value = nextVal;
                     node.right = this.#delete(nextVal, node.right);
+
                 }
+                ret = true;
             }
         }
+
+        // correct the height
+
+        // 
+
+        return [node,ret];
 
     }
 
