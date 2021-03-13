@@ -48,6 +48,9 @@ class BST {
     } else if (key > node.key) {
       node.right = this.#delete(key, node.right);
     } else {
+      if(!node.left && !node.right){
+        return null;
+      }
       if (node.left == null) {
         node = node.right;
       } else if (node.right == null) {
