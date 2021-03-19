@@ -1,5 +1,13 @@
+// https://leetcode.com/problems/minimum-path-sum/
+
 var minPathSum = function(grid) {
+    let memory = [];
+
+    for (let row = 0; row < grid.length; row++) {
+        memory.push(new Array(grid[0].length))
+    }
     
+    return minPathSumItr(grid, memory);
 };
 
 var minPathSumRec = function(grid, row, col){
