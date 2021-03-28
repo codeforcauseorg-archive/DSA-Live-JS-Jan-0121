@@ -69,6 +69,8 @@ class Graph {
     }
 
 
+
+
     dfs = (start, target)=>{
         let initial = this.#vertices.get(start);
         let stack = [];
@@ -95,6 +97,35 @@ class Graph {
         return false;
 
     }
+
+
+    findAllPaths = (start, target)=>{
+        let initial = this.#vertices.get(start);
+        let visied = new Set();
+        visied.add(initial);
+
+        return this.#findAllPaths(initial, target, visied, [start]);
+    }
+
+    #findAllPaths = (current, target, visited, path=[], solutions=[])=>{
+        if(current.value == target){
+            solutions.push([...path]);
+            return;
+        }
+
+        for(let neighbour of current.neighbours){
+            if(!visited.has(neighbour)){
+                visited.add(neighbour);
+                path.push(neighbour.value);
+                this.#findAllPaths(neighbour, target, visited, path, solutions);
+                visited.delete(neighbour);
+                path.pop();
+            }
+        }
+
+        return solutions;
+
+    }
 }
 
 
@@ -108,7 +139,10 @@ graph.addVertex("D");
 graph.addVertex("E");
 
 graph.addEdge("A", "C");
+graph.addEdge("A", "B");
+graph.addEdge("C", "D");
 graph.addEdge("D", "B");
+graph.addEdge("D", "E");
 graph.addEdge("E", "B");
 
-console.log(graph.dfs("D", "E"));
+console.log(graph.findAllPaths("A", "E"));
