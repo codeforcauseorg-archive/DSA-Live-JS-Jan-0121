@@ -97,6 +97,50 @@ class Graph {
     return components;
   };
 
+  bipart = () => {
+
+    let processed = new Set();
+    let red = new Set();
+    let black = new Set();
+
+    for (let [initialKey, initial] of this.#vertices) {
+      if (processed.has(initial)) {
+        continue;
+      }
+
+      let stack = [];
+      stack.push(initial);
+      processed.add(initial);
+      red.add(initial);
+
+      while (stack.length > 0) {
+        let top = stack.pop();
+
+        for (let neighbour of top.neighbours) {
+          if (!processed.has(neighbour)) {
+            processed.add(neighbour);
+            stack.push(neighbour);
+            if(red.has(top)){
+                black.add(neighbour);
+            } else {
+                red.add(neighbour);
+            }
+          } else{
+            if(red.has(top) && red.has(neighbour)){
+                return false;
+            }
+            if(black.has(top) && black.has(neighbour)){
+                return false;
+            }
+          }
+        }
+      }
+
+    }
+
+    return true;
+  };
+
   dfs = (start, target) => {
     let initial = this.#vertices.get(start);
     let stack = [];
@@ -162,7 +206,8 @@ graph.addVertex("F");
 
 graph.addEdge("A", "C");
 graph.addEdge("A", "B");
+graph.addEdge("C", "B");
 graph.addEdge("D", "E");
 graph.addEdge("E", "F");
 
-console.log(graph.connectedComponents());
+console.log(graph.bipart());
