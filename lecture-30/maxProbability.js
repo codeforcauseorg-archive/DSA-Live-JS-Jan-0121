@@ -44,37 +44,37 @@ class Graph {
     let finals = new Map();
     
     for(let [name, vertex] of this.#vertices){
-      distances.set(name, 0);
+      distances.set(name, +Infinity);
     }
 
-    distances.set(start, 1);
+    distances.set(start, 0);
 
     while(distances.size > 0){
 
-      let max;
+      let min;
       for(let [name, distance] of distances){
-        if(max == undefined){
-          max = name;
-        } else if (distance > distances.get(max)){
-          max = name;
+        if(min == undefined){
+          min = name;
+        } else if (distance < distances.get(min)){
+          min = name;
         }
       }
 
       // update weights of neighbours
-      let current = this.#vertices.get(max);
+      let current = this.#vertices.get(min);
       for(let [padosi, weight] of current.neighbours){
         let padosiName = padosi.value;
-        if(distances.has(padosiName) && (distances.get(padosiName) < (distances.get(max) * weight))){
-          distances.set(padosiName, (distances.get(max) * weight));
-          parents.set(padosiName, max);
+        if(distances.has(padosiName) && (distances.get(padosiName) > (distances.get(min) + weight))){
+          distances.set(padosiName, (distances.get(min) + weight));
+          parents.set(padosiName, min);
         }
       }
 
-      finals.set(max, distances.get(max));
-      distances.delete(max);
+      finals.set(min, distances.get(min));
+      distances.delete(min);
     }
 
-    return finals;
+    return [finals, parents];
   }
 
   findMinPathsfromSource = (source)=>{
@@ -99,20 +99,22 @@ class Graph {
 
 let graph = new Graph();
 
-let n = 3;
-let edges = [[0,1],[1,2],[0,2]];
-let succProb = [0.5,0.5,0.2];
+graph.addVertex("A");
+graph.addVertex("B");
+graph.addVertex("C");
+graph.addVertex("D");
+graph.addVertex("E");
+graph.addVertex("F");
 
-for(let i =0; i<n; i++){
-  graph.addVertex(i);
-}
+graph.addEdge("A", "B", 5);
+graph.addEdge("A", "C", 10);
+graph.addEdge("B", "C", 10);
+graph.addEdge("B", "E", 7);
+graph.addEdge("C", "D", 8);
+graph.addEdge("B", "D", 6);
+graph.addEdge("E", "D", 5);
+graph.addEdge("E", "F", 9);
+graph.addEdge("D", "F", 10);
 
-for(let index=0; index< edges.length; index++){
-  let [start, end] = edges[index];
-  let prob = succProb[index];
-  graph.addEdge(start, end, prob)
-}
-
-let distances = graph.dijkstra(0);
-console.log(distances.get(2));
+console.log(graph.findMinPathsfromSource("A"));
 
